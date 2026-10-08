@@ -22,6 +22,13 @@
   ],
   "strukturOrganisasi": [
     {
+      "jabatan": "Kasie Keuangan",
+      "nama": [
+        "[Nama]"
+      ],
+      "atasan": "Lurah"
+    },
+    {
       "jabatan": "Sekretaris Lurah",
       "nama": [
         "[Nama]"
@@ -30,15 +37,10 @@
       "garisSamping": true
     },
     {
-      "jabatan": "Kasie Keuangan",
-      "nama": [
-        "[Nama]"
-      ],
-      "atasan": "Lurah"
-    },
-    {
       "jabatan": "Kasie Pemerintahan",
-      "nama": [],
+      "nama": [
+        "Alo"
+      ],
       "atasan": "Lurah"
     },
     {
