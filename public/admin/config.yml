@@ -105,25 +105,13 @@ collections:
 
       - label: Persyaratan
         name: persyaratan
-        widget: list
-        summary: "{{fields.syarat}}"
-        collapsed: false
-        field:
-          label: Syarat
-          name: syarat
-          widget: string
+        widget: daftarTeks
         required: false
-        hint: "Klik tambah untuk tiap syarat (satu baris satu syarat). Kosongkan jika belum ada — website akan menulis “sedang disiapkan”."
+        hint: "Satu baris satu syarat. Kosongkan jika belum ada — website akan menulis “sedang disiapkan”."
 
       - label: Alur Pelayanan
         name: alur
-        widget: list
-        summary: "{{fields.langkah}}"
-        collapsed: false
-        field:
-          label: Langkah
-          name: langkah
-          widget: string
+        widget: daftarTeks
         required: false
         hint: "Langkah mengurus surat secara berurutan, mulai dari langkah 1."
 
@@ -580,25 +568,13 @@ collections:
 
           - label: Misi
             name: misi
-            widget: list
-            summary: "{{fields.misi}}"
-            collapsed: false
-            field:
-              label: Misi
-              name: misi
-              widget: string
+            widget: daftarTeks
             required: false
             hint: "Satu baris satu misi."
 
           - label: Program Unggulan
             name: programUnggulan
-            widget: list
-            summary: "{{fields.program}}"
-            collapsed: false
-            field:
-              label: Program
-              name: program
-              widget: string
+            widget: daftarTeks
             required: false
             hint: "Satu baris satu program."
 

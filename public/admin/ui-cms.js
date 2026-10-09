@@ -270,6 +270,113 @@
     });
   }
 
+  // Widget custom "daftarTeks": daftar string sederhana (persyaratan, alur, misi, program)
+  // tanpa accordion bertingkat. Menyimpan array string langsung.
+  var widgetDaftarTeksTerdaftar = false;
+
+  function ambilDaftarTeks(value) {
+    if (!value) return [];
+    try {
+      if (typeof value.toJS === 'function') {
+        var js = value.toJS();
+        if (Array.isArray(js)) return js;
+        return js == null ? [] : [js];
+      }
+    } catch (e) {
+      return [];
+    }
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') return value ? [value] : [];
+    return [];
+  }
+
+  function buatKontrolDaftarTeks(options) {
+    var placeholder = (options && options.placeholder) || 'Isi item';
+    var tombolTambah = (options && options.tombolTambah) || '+ Tambah item';
+    if (!window.createClass) return null;
+    return window.createClass({
+      handleUbah: function (index, e) {
+        var daftar = ambilDaftarTeks(this.props.value).slice();
+        daftar[index] = e.target.value;
+        this.props.onChange(daftar);
+      },
+      handleTambah: function () {
+        var daftar = ambilDaftarTeks(this.props.value).slice();
+        daftar.push('');
+        this.props.onChange(daftar);
+      },
+      handleHapus: function (index) {
+        var daftar = ambilDaftarTeks(this.props.value).slice();
+        daftar.splice(index, 1);
+        this.props.onChange(daftar);
+      },
+      render: function () {
+        var self = this;
+        var daftar = ambilDaftarTeks(this.props.value);
+        var baris = daftar.length ? daftar : [''];
+        var classWrapper = this.props.classNameWrapper || '';
+        var forID = this.props.forID || 'daftar-teks';
+
+        return h(
+          'div',
+          { className: 'daftar-teks' },
+          baris.map(function (item, index) {
+            return h(
+              'div',
+              { className: 'daftar-teks-baris', key: index },
+              h('input', {
+                id: forID + '-' + index,
+                className: classWrapper,
+                type: 'text',
+                value: item || '',
+                placeholder: placeholder,
+                onChange: function (e) {
+                  self.handleUbah(index, e);
+                },
+              }),
+              baris.length > 1
+                ? h(
+                    'button',
+                    {
+                      type: 'button',
+                      className: 'daftar-teks-hapus',
+                      onClick: function () {
+                        self.handleHapus(index);
+                      },
+                    },
+                    'Hapus'
+                  )
+                : null
+            );
+          }),
+          h(
+            'button',
+            {
+              type: 'button',
+              className: 'daftar-teks-tambah',
+              onClick: this.handleTambah,
+            },
+            tombolTambah
+          )
+        );
+      },
+    });
+  }
+
+  function buatPratinjauDaftarTeks() {
+    return buatKomponen(function (props) {
+      var daftar = ambilDaftarTeks(props.value);
+      if (!daftar.length) return h('span', null, '—');
+      return h(
+        'ul',
+        { className: 'daftar-teks-pratinjau' },
+        daftar.map(function (item, index) {
+          return h('li', { key: index }, item);
+        })
+      );
+    });
+  }
+
   // Wrapper komponen React Decap
   function buatKomponen(renderFn) {
     if (window.createClass) {
@@ -1961,6 +2068,24 @@
             PratinjauDaftarNama
           );
           widgetDaftarNamaTerdaftar = true;
+        }
+      }
+      if (
+        !widgetDaftarTeksTerdaftar &&
+        typeof window.CMS.registerWidget === 'function'
+      ) {
+        var KontrolDaftarTeks = buatKontrolDaftarTeks({
+          placeholder: 'Isi item',
+          tombolTambah: '+ Tambah item'
+        });
+        var PratinjauDaftarTeks = buatPratinjauDaftarTeks();
+        if (KontrolDaftarTeks) {
+          window.CMS.registerWidget(
+            'daftarTeks',
+            KontrolDaftarTeks,
+            PratinjauDaftarTeks
+          );
+          widgetDaftarTeksTerdaftar = true;
         }
       }
       if (typeof window.CMS.registerPreviewStyle === 'function') {

@@ -1209,19 +1209,30 @@
 /* ── 9. Kartu Field Formulir (`ControlContainer`) ─────────── */
 
 #nc-root [class*="ControlContainer"] {
-  background: #ffffff !important;
-  border: 1px solid var(--adm-garis) !important;
-  border-radius: 14px !important;
-  box-shadow: var(--bayang-halus) !important;
-  padding: 1.15rem 1.25rem !important;
-  margin-bottom: 1.1rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.75rem 0 !important;
+  margin-bottom: 0.75rem !important;
   position: relative !important;
-  transition: border-color 150ms ease, box-shadow 150ms ease !important;
+  transition: none !important;
 }
 
 #nc-root [class*="ControlContainer"]:focus-within {
-  border-color: var(--adm-garis-kuat) !important;
-  box-shadow: 0 4px 16px rgba(25, 36, 20, 0.06) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Section grouping: add subtle separator before field groups */
+#nc-root .Pane1 > form > [class*="ControlContainer"]:first-child {
+  padding-top: 0 !important;
+}
+
+/* Group visual separator for logical sections */
+#nc-root [class*="ControlContainer"][data-section-start="true"] {
+  padding-top: 1.5rem !important;
+  border-top: 1px solid var(--adm-garis-lunak) !important;
 }
 
 /* Label Field Tegas & Bersih */
@@ -1504,22 +1515,21 @@
 /* Bilah Atas Kontrol List (Header "> 2 persyaratan" & tombol Add) */
 #nc-root [class*="ObjectWidgetTopBar"],
 #nc-root [class*="ListControlTopBar"] {
-  background: var(--adm-latar-2) !important;
-  border: 1px solid var(--adm-garis) !important;
-  border-radius: 12px !important;
-  padding: 0.5rem 0.85rem !important;
-  margin-bottom: 0.85rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0.5rem 0 !important;
+  margin-bottom: 0.5rem !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: space-between !important;
+  justify-content: flex-end !important;
   flex-wrap: nowrap !important;
-  gap: 0.75rem !important;
+  gap: 0.5rem !important;
 }
 
-/* Tombol Add di dalam TopBar: Ramping, BUKAN 100% width yang menimpa label */
+/* Tombol Add di dalam TopBar: Ramping */
 #nc-root [class*="ObjectWidgetTopBar"] button,
-#nc-root [class*="ListControlTopBar"] button,
-#nc-root [class*="StyledListItemTopBar"] button {
+#nc-root [class*="ListControlTopBar"] button {
   width: auto !important;
   min-height: 2rem !important;
   height: 2rem !important;
@@ -1544,36 +1554,43 @@
   border-color: var(--adm-hijau) !important;
 }
 
-/* Kartu Item List Individual */
+/* Kartu Item List Individual - flatten to borderless rows */
 #nc-root [class*="SortableListItem"],
 #nc-root [class*="listControlItem"] {
-  background: #ffffff !important;
-  border: 1px solid var(--adm-garis) !important;
-  border-radius: 12px !important;
-  margin-bottom: 0.75rem !important;
-  overflow: hidden !important;
-  box-shadow: var(--bayang-halus) !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  overflow: visible !important;
+  box-shadow: none !important;
+  padding: 0.5rem 0 !important;
+  border-bottom: 1px solid var(--adm-garis-lunak) !important;
 }
 
-/* Header Tiap Baris Item (Nomor Langkah, Drag Handle, Delete, Summary) */
+#nc-root [class*="SortableListItem"]:last-child,
+#nc-root [class*="listControlItem"]:last-child {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+/* Header Tiap Baris Item (Nomor Langkah, Drag Handle, Delete, Summary) - minimal */
 #nc-root [class*="StyledListItemTopBar"] {
-  background: var(--adm-hijau-muda) !important;
-  border-bottom: 1px solid var(--adm-garis) !important;
-  padding: 0.4rem 0.85rem !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0.25rem 0 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  cursor: pointer !important;
+  cursor: grab !important;
   user-select: none !important;
-  transition: background-color 120ms ease !important;
 }
 
 #nc-root [class*="StyledListItemTopBar"]:hover {
-  background: #e2ede0 !important;
+  background: transparent !important;
 }
 
 #nc-root [class*="StyledListItemTopBar"] span:not([class*="Icon"]) {
-  font-size: 0.85rem !important;
+  font-size: 0.82rem !important;
   font-weight: 600 !important;
   color: var(--adm-hijau-gelap) !important;
   letter-spacing: -0.01em !important;
@@ -1584,6 +1601,13 @@
   border: 0 !important;
   color: var(--adm-teks-lunak) !important;
   padding: 0.2rem 0.5rem !important;
+  opacity: 0 !important;
+  transition: opacity 120ms ease !important;
+}
+
+#nc-root [class*="SortableListItem"]:hover [class*="StyledListItemTopBar"] button,
+#nc-root [class*="listControlItem"]:hover [class*="StyledListItemTopBar"] button {
+  opacity: 1 !important;
 }
 
 #nc-root [class*="StyledListItemTopBar"] button:hover {
@@ -1594,11 +1618,12 @@
 /* Kontrol List Bersarang (Nested List di dalam List Item seperti Nama Pejabat di Jabatan) */
 #nc-root [class*="SortableListItem"] [class*="ListControlTopBar"],
 #nc-root [class*="listControlItem"] [class*="ListControlTopBar"] {
-  background: var(--adm-latar) !important;
-  border: 1px dashed var(--adm-garis-kuat) !important;
-  border-radius: 8px !important;
-  padding: 0.35rem 0.65rem !important;
-  margin-bottom: 0.5rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0.25rem 0 !important;
+  margin-bottom: 0.25rem !important;
+  justify-content: flex-end !important;
 }
 
 #nc-root [class*="SortableListItem"] [class*="ListControlTopBar"] button,
@@ -1607,66 +1632,98 @@
   height: 1.75rem !important;
   font-size: 0.78rem !important;
   padding: 0.15rem 0.6rem !important;
+  background: var(--adm-latar) !important;
+  color: var(--adm-teks-lunak) !important;
+  border: 1px solid var(--adm-garis) !important;
 }
 
+#nc-root [class*="SortableListItem"] [class*="ListControlTopBar"] button:hover,
+#nc-root [class*="listControlItem"] [class*="ListControlTopBar"] button:hover {
+  background: var(--adm-hijau-muda) !important;
+  color: var(--adm-hijau-gelap) !important;
+  border-color: var(--adm-garis-kuat) !important;
+}
+
+/* Nested list items - flatten */
 #nc-root [class*="SortableListItem"] [class*="SortableListItem"],
 #nc-root [class*="listControlItem"] [class*="listControlItem"] {
-  border: 1px solid #d5ded3 !important;
-  border-radius: 8px !important;
-  margin-bottom: 0.45rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
   box-shadow: none !important;
+  padding: 0.35rem 0 0.35rem 1rem !important;
+  border-left: 2px solid var(--adm-garis-lunak) !important;
+  border-bottom: 1px solid var(--adm-garis-lunak) !important;
+}
+
+#nc-root [class*="SortableListItem"] [class*="SortableListItem"]:last-child,
+#nc-root [class*="listControlItem"] [class*="listControlItem"]:last-child {
+  border-bottom: none !important;
 }
 
 #nc-root [class*="SortableListItem"] [class*="SortableListItem"] [class*="StyledListItemTopBar"],
 #nc-root [class*="listControlItem"] [class*="listControlItem"] [class*="StyledListItemTopBar"] {
-  background: #f0f5ee !important;
-  padding: 0.25rem 0.6rem !important;
+  background: transparent !important;
+  padding: 0.15rem 0 !important;
 }
 
 #nc-root [class*="SortableListItem"] [class*="SortableListItem"] > div:not([class*="StyledListItemTopBar"]),
 #nc-root [class*="listControlItem"] [class*="listControlItem"] > div:not([class*="StyledListItemTopBar"]) {
-  padding: 0.5rem 0.65rem !important;
+  padding: 0.25rem 0 !important;
 }
 
-/* Isi formulir di dalam item list */
+/* Isi formulir di dalam item list - flatten */
 #nc-root [class*="SortableListItem"] > div:not([class*="StyledListItemTopBar"]),
 #nc-root [class*="listControlItem"] > div:not([class*="StyledListItemTopBar"]) {
-  padding: 0.85rem !important;
-  background: #ffffff !important;
+  padding: 0.5rem 0 !important;
+  background: transparent !important;
 }
 
 #nc-root [class*="SortableListItem"] [class*="ControlContainer"],
 #nc-root [class*="listControlItem"] [class*="ControlContainer"] {
   border: 0 !important;
   box-shadow: none !important;
-  padding: 0 !important;
-  margin-bottom: 0.4rem !important;
+  padding: 0.25rem 0 !important;
+  margin-bottom: 0.25rem !important;
+  background: transparent !important;
 }
 
-/* Tombol "+ Tambah Item" di bawah daftar (bila ada) */
+/* Tombol "+ Tambah Item" di bawah daftar (bila ada) - minimal */
 #nc-root [class*="ListControl"] > button:last-child {
-  width: 100% !important;
-  min-height: 2.6rem !important;
-  background: var(--adm-hijau-muda) !important;
-  border: 1.5px dashed var(--adm-garis-kuat) !important;
-  color: var(--adm-hijau-gelap) !important;
-  border-radius: 12px !important;
+  width: auto !important;
+  min-height: 2rem !important;
+  height: 2rem !important;
+  background: transparent !important;
+  border: none !important;
+  color: var(--adm-hijau) !important;
+  border-radius: var(--radius-pil) !important;
   font-weight: 700 !important;
-  font-size: 0.88rem !important;
-  display: flex !important;
+  font-size: 0.82rem !important;
+  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.5rem !important;
+  gap: 0.35rem !important;
   cursor: pointer !important;
-  transition: all 140ms ease !important;
-  margin-top: 0.6rem !important;
+  transition: all 120ms ease !important;
+  margin-top: 0.5rem !important;
+  padding: 0.25rem 0.85rem !important;
 }
 
 #nc-root [class*="ListControl"] > button:last-child:hover {
-  background: #ffffff !important;
-  border-color: var(--adm-hijau) !important;
-  color: var(--adm-hijau) !important;
-  box-shadow: 0 2px 8px rgba(58, 99, 39, 0.15) !important;
+  background: var(--adm-hijau-muda) !important;
+  color: var(--adm-hijau-gelap) !important;
+}
+
+/* Hide redundant FieldLabel for single-field list items */
+#nc-root [class*="SortableListItem"] [class*="FieldLabel"],
+#nc-root [class*="listControlItem"] [class*="FieldLabel"] {
+  display: none !important;
+}
+
+/* Also hide for daftarTeks custom widget - it manages its own labels */
+#nc-root .daftar-teks [class*="FieldLabel"] {
+  display: none !important;
 }
 
 /* ── 14. Widget Markdown & Visual Editor ───────────────────── */
@@ -1878,4 +1935,73 @@
 
 #nc-root .daftar-nama-tambah:hover {
   background: var(--adm-hijau-muda-2) !important;
+}
+
+/* ── Widget daftarTeks: input teks langsung untuk daftar string sederhana ────── */
+
+#nc-root .daftar-teks {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+#nc-root .daftar-teks-baris {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+#nc-root .daftar-teks-baris input {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+#nc-root .daftar-teks-hapus,
+#nc-root .daftar-teks-tambah {
+  font-family: inherit !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-pil) !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+}
+
+#nc-root .daftar-teks-hapus {
+  color: var(--adm-bahaya) !important;
+  background: var(--adm-bahaya-muda) !important;
+  border: 1px solid transparent !important;
+  padding: 0.4375rem 0.875rem !important;
+}
+
+#nc-root .daftar-teks-hapus:hover {
+  border-color: var(--adm-bahaya) !important;
+}
+
+#nc-root .daftar-teks-tambah {
+  color: var(--adm-hijau) !important;
+  background: var(--adm-hijau-muda) !important;
+  border: 1px dashed var(--adm-garis-kuat) !important;
+  padding: 0.5rem 1rem !important;
+  align-self: flex-start !important;
+}
+
+#nc-root .daftar-teks-tambah:hover {
+  background: var(--adm-hijau-muda-2) !important;
+}
+
+/* Pratinjau daftarTeks */
+#nc-root .daftar-teks-pratinjau {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#nc-root .daftar-teks-pratinjau li {
+  padding: 0.25rem 0 !important;
+  border-bottom: 1px solid var(--adm-garis-lunak) !important;
+}
+
+#nc-root .daftar-teks-pratinjau li:last-child {
+  border-bottom: 0 !important;
 }
